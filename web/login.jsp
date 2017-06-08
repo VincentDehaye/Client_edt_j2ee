@@ -19,8 +19,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
 
         function createEtu(nom, prenom, mail, semestre, cursus, niveau, login, password)
@@ -68,12 +68,9 @@
                     console.log(xhr.status);
                     console.log(data);
                     token = data.bearer;
-                    etuId = data.etuId;
                     console.log(token);
-                    expirationDate = moment().add(2, 'h').utc();
-                    console.log(expirationDate);
-                    document.cookie = 'token=' + token;
-                    window.location.replace("http://localhost:28080/Client_war_exploded/search.jsp")
+                    Cookies.set('token', token);
+                    window.location.href = "http://localhost:28080/Client_war_exploded/search.jsp"
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {alert("Invalid credentials");};
@@ -91,13 +88,13 @@
             });
 
             $("#session_username").keypress(function(e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     logIn();
                 }
             })
 
             $("#session_password").keypress(function(e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     logIn();
                 }
             })
