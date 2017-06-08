@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="beans.CreneauEntity">
+        <table name="creneau" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idCreneau">
+                <column name="IdCreneau"/>
+            </id>
+            <basic name="salle">
+                <column name="Salle"/>
+            </basic>
+            <basic name="type">
+                <column name="Type"/>
+            </basic>
+            <basic name="groupe">
+                <column name="Groupe"/>
+            </basic>
+            <basic name="alternance">
+                <column name="Alternance"/>
+            </basic>
+            <many-to-one name="uvByUv" optional="true" target-entity="beans.UvEntity">
+                <join-column name="Uv" referenced-column-name="IdUv"/>
+            </many-to-one>
+            <many-to-one name="horaireByHoraire" optional="true" target-entity="beans.HoraireEntity">
+                <join-column name="Horaire" referenced-column-name="IdHoraire"/>
+            </many-to-one>
+            <one-to-many name="participationsByIdCreneau" mapped-by="creneauByCren"
+                         target-entity="beans.ParticipationEntity"/>
+        </attributes>
+    </entity>
+    <entity class="beans.EtudiantEntity">
+        <table name="etudiant" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idEtudiant">
+                <column name="IdEtudiant"/>
+            </id>
+            <basic name="nom">
+                <column name="Nom"/>
+            </basic>
+            <basic name="prenom">
+                <column name="Prenom"/>
+            </basic>
+            <basic name="mail">
+                <column name="Mail"/>
+            </basic>
+            <basic name="semestre">
+                <column name="Semestre"/>
+            </basic>
+            <basic name="cursus">
+                <column name="Cursus"/>
+            </basic>
+            <basic name="niveau">
+                <column name="Niveau"/>
+            </basic>
+            <basic name="login">
+                <column name="Login"/>
+            </basic>
+            <basic name="password">
+                <column name="Password"/>
+            </basic>
+            <one-to-many name="participationsByIdEtudiant" mapped-by="etudiantByEtu"
+                         target-entity="beans.ParticipationEntity"/>
+        </attributes>
+    </entity>
+    <entity class="beans.HoraireEntity">
+        <table name="horaire" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idHoraire">
+                <column name="IdHoraire"/>
+            </id>
+            <basic name="heureDebut">
+                <column name="Heure_debut"/>
+            </basic>
+            <basic name="heureFin">
+                <column name="Heure_fin"/>
+            </basic>
+            <basic name="jourSemaine">
+                <column name="Jour_semaine"/>
+            </basic>
+            <one-to-many name="creneausByIdHoraire" mapped-by="horaireByHoraire" target-entity="beans.CreneauEntity"/>
+        </attributes>
+    </entity>
+    <entity class="beans.ParticipationEntity">
+        <table name="participation" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idParticipation">
+                <column name="IdParticipation"/>
+            </id>
+            <many-to-one name="etudiantByEtu" optional="true" target-entity="beans.EtudiantEntity">
+                <join-column name="Etu" referenced-column-name="IdEtudiant"/>
+            </many-to-one>
+            <many-to-one name="creneauByCren" optional="true" target-entity="beans.CreneauEntity">
+                <join-column name="Cren" referenced-column-name="IdCreneau"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="beans.ProfesseurEntity">
+        <table name="professeur" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idProfesseur">
+                <column name="IdProfesseur"/>
+            </id>
+            <basic name="nom">
+                <column name="Nom"/>
+            </basic>
+            <basic name="prenom">
+                <column name="Prenom"/>
+            </basic>
+            <basic name="mail">
+                <column name="Mail"/>
+            </basic>
+            <basic name="login">
+                <column name="Login"/>
+            </basic>
+            <basic name="password">
+                <column name="Password"/>
+            </basic>
+            <one-to-many name="uvsByIdProfesseur" mapped-by="professeurByResponsable" target-entity="beans.UvEntity"/>
+        </attributes>
+    </entity>
+    <entity class="beans.UvEntity">
+        <table name="uv" schema="sr03_project" catalog=""/>
+        <attributes>
+            <id name="idUv">
+                <column name="IdUv"/>
+            </id>
+            <basic name="identifiant">
+                <column name="Identifiant"/>
+            </basic>
+            <basic name="description">
+                <column name="Description"/>
+            </basic>
+            <many-to-one name="professeurByResponsable" optional="true" target-entity="beans.ProfesseurEntity">
+                <join-column name="Responsable" referenced-column-name="IdProfesseur"/>
+            </many-to-one>
+            <one-to-many name="creneausByIdUv" mapped-by="uvByUv" target-entity="beans.CreneauEntity"/>
+        </attributes>
+    </entity>
+</entity-mappings>
