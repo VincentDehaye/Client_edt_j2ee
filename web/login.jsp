@@ -23,11 +23,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
 
+        var port = window.location.port;
+
         function createEtu(nom, prenom, mail, semestre, cursus, niveau, login, password)
         {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:28080/Edt_jee_war_exploded/etudiants',
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants',
                 dataType: 'json',
                 data: JSON.stringify({nom: nom,
                     prenom: prenom,
@@ -59,7 +61,7 @@
             var password = $('#session_password').val();
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:28080/Edt_jee_war_exploded/authentification',
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/authentification',
                 dataType: 'json',
                 data: JSON.stringify({username: username, password: password}),
                 headers:{'Content-Type':'application/json;charset=utf8'} ,
@@ -70,7 +72,7 @@
                     token = data.bearer;
                     console.log(token);
                     Cookies.set('token', token);
-                    window.location.href = "http://localhost:28080/Client_war_exploded/search.jsp"
+                    window.location.href = "http://localhost:" + port + "/Client_war_exploded/search.jsp"
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status == 401) {alert("Invalid credentials");};

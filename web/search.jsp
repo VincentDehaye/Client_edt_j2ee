@@ -24,6 +24,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
+
+        var port = window.location.port;
+
         function makeList(array, root){
             if(typeof root === 'undefined'){
                 root = $('#list-container');
@@ -49,7 +52,7 @@
             var searched_login = $('#login').val();
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:28080/Edt_jee_war_exploded/etudiants/search',
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search',
                 dataType: 'json',
                 data: JSON.stringify({login: searched_login}),
                 headers:{'Authorization':'Bearer ' + token,
@@ -65,7 +68,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status === 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.href.location("http://localhost:28080/Edt_jee_war_exploded/login.jsp")
+                        window.href.location("http://localhost:" + port + "/Edt_jee_war_exploded/login.jsp")
                     }
                     console.log(xhr.status);
                     console.log(textStatus);

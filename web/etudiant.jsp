@@ -24,12 +24,13 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
+        var port = window.location.port;
         var Etu = [];
         var Edt = [];
         function getEtu(id) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:28080/Edt_jee_war_exploded/etudiants/' + id,
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/' + id,
                 dataType: 'json',
                 headers:{'Authorization':'Bearer ' + token} ,
                 crossDomain: true,
@@ -49,7 +50,7 @@
         function getEdt(id) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:28080/Edt_jee_war_exploded/edt/' + id,
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/edt/' + id,
                 dataType: 'json',
                 headers:{'Authorization':'Bearer ' + token} ,
                 crossDomain: true,
@@ -61,7 +62,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status === 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.href.location("http://localhost:28080/Edt_jee_war_exploded/login.jsp")
+                        window.href.location("http://localhost:" + port + "/Edt_jee_war_exploded/login.jsp")
                     }
                     console.log(xhr.status);
                     console.log(textStatus);
