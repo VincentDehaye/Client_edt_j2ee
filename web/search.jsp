@@ -68,7 +68,7 @@
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status === 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.href.location("http://localhost:" + port + "/Edt_jee_war_exploded/login.jsp")
+                        window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
                     }
                     console.log(xhr.status);
                     console.log(textStatus);
