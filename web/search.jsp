@@ -27,24 +27,27 @@
 
         var port = window.location.port;
 
-        function makeList(array, root){
-            if(typeof root === 'undefined'){
+        function makeList(array, root) {
+            if (typeof root === 'undefined') {
                 root = $('#list-container');
             }
-            var ul = $("<ul></ul>");
+            var ul = $("<ul class='list-group'></ul>");
             root.append(ul);
             for (var i = 0; i < array.length; i++) {
-                var li = $("<li></li>");
-                ul.append(li);
-                var pre = $("<pre>" + JSON.stringify(array[i], null, 2) + "</pre>");
-                li.append(pre);
-                /*a.click(function() {
-                    window.location.href = "http://localhost:28080/Client_war_exploded/etudiant.jsp&id=" + array[i].id;
-                });
+                var a = $("<a href='http://localhost:" + port + "/Client_war_exploded/etudiant.jsp?id=" +
+                    array[i].idEtudiant +
+                    "' class='list-group-item'>" + array[i].nom + ", " + array[i].prenom + ", " +
+                    array[i].cursus + array[i].semestre + "</a>");
+                ul.append(a);
+                /*var pre = $("<pre>" + JSON.stringify(array[i], null, 2) + "</pre>");
+                 li.append(pre);
+                 a.click(function() {
+                 window.location.href = "http://localhost:28080/Client_war_exploded/etudiant.jsp&id=" + array[i].id;
+                 });
 
-                if(typeof array[i].subMenu !== 'undefined'){
-                    makeList(array[i].subMenu, li);
-                }*/
+                 if(typeof array[i].subMenu !== 'undefined'){
+                 makeList(array[i].subMenu, li);
+                 }*/
             }
         }
 
@@ -55,8 +58,10 @@
                 url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search',
                 dataType: 'json',
                 data: JSON.stringify({login: searched_login}),
-                headers:{'Authorization':'Bearer ' + token,
-                    'Content-Type':'application/json;charset=utf8'} ,
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json;charset=utf8'
+                },
                 crossDomain: true,
                 success: function (data, textStatus, xhr) {
                     console.log(xhr.status);
@@ -77,14 +82,14 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var token = Cookies.get('token');
             console.log("Token : " + token);
-            $("#search").click(function(e) {
+            $("#search").click(function (e) {
                 search(token);
             });
 
-            $("#login").keypress(function(e) {
+            $("#login").keypress(function (e) {
                 if (e.which === 13) {
                     search(token);
                 }
