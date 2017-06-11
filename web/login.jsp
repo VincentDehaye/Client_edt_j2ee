@@ -57,8 +57,8 @@
         };
 
         function logIn() {
-            var username = $('#session_username').val();
-            var password = $('#session_password').val();
+            var username = document.getElementById("session_username").value;
+            var password = document.getElementById("session_password").value;
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:' + port + '/Edt_jee_war_exploded/authentification',
@@ -85,17 +85,17 @@
 
         document.addEventListener("DOMContentLoaded", function(event) {
 
-            $("#commit").click(function(e) {
+            document.getElementById("commit").addEventListener("click", function(e) {
                 logIn();
             });
 
-            $("#session_username").keypress(function(e) {
+            document.getElementById("session_username").addEventListener("keypres", function(e) {
                 if (e.which === 13) {
                     logIn();
                 }
             })
 
-            $("#session_password").keypress(function(e) {
+            document.getElementById("session_password").addEventListener("keypress", function(e) {
                 if (e.which === 13) {
                     logIn();
                 }
