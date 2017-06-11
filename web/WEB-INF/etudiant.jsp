@@ -37,9 +37,11 @@
                 crossDomain: true,
                 success: function (data, textStatus, xhr) {
                     Etu = JSON.stringify(data,null,2);
-                    $("#pre1").text(Etu);
-                    $("body").prepend("<img src='https://demeter.utc.fr/portal/pls/portal30/portal30." +
-                        "get_photo_utilisateur?username=" + data.login + "'/>");
+                    document.getElementById("pre1").innerHTML = Etu;
+                    img = document.createElement("img");
+                    img.setAttribute("src", "https://demeter.utc.fr/portal/pls/portal30/portal30." +
+                    "get_photo_utilisateur?username=" + data.login);
+                    document.body.prepend(img);
                     //getEtuPhoto(data.login);
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -80,7 +82,7 @@
                 crossDomain: true,
                 success: function (data, textStatus, xhr) {
                     Edt = JSON.stringify(data, null, 2);
-                    $("#pre2").text(Edt);
+                    document.getElementById("pre2").innerHTML = Edt;
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status === 401) {
@@ -95,7 +97,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function(event) {
-            var id = $('#getEtuId').val();
+            var id = document.getElementById("getEtuId").value;
             if (id === "null") {
                 window.location.href = ("http://localhost:" + port + "/Client_war_exploded/search.jsp")
             }
