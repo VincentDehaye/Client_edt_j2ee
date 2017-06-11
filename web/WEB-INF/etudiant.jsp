@@ -94,7 +94,7 @@
             });
         }
 
-        $(document).ready(function () {
+        document.addEventListener("DOMContentLoaded", function(event) {
             var id = $('#getEtuId').val();
             if (id === "null") {
                 window.location.href = ("http://localhost:" + port + "/Client_war_exploded/search.jsp")

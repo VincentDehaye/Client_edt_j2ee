@@ -83,7 +83,7 @@
             });
         };
 
-        $(document).ready(function () {
+        document.addEventListener("DOMContentLoaded", function(event) {
 
             $("#commit").click(function(e) {
                 logIn();

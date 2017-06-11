@@ -30,16 +30,26 @@
 
         function makeList(array, root) {
             if (typeof root === 'undefined') {
-                root = $('#list-container');
+                root = document.getElementById("list-container");
             }
-            var ul = $("<ul class='list-group'></ul>");
-            root.append(ul);
+            var ul = document.createElement("ul");
+            ul.setAttribute("class", "list-group");
+            root.appendChild(ul);
             for (var i = 0; i < array.length; i++) {
-                var a = $("<a href='http://localhost:" + port + "/Client_war_exploded/etudiant?id=" +
-                    array[i].idEtudiant +
-                    "' class='list-group-item'>" + array[i].nom + ", " + array[i].prenom + ", " +
-                    array[i].cursus + array[i].semestre + "</a>");
-                ul.append(a);
+                var a = document.createElement("a");
+
+                a.setAttribute("href",
+                    'http://localhost:' +
+                    port +
+                    '/Client_war_exploded/etudiant?id=' +
+                    array[i].idEtudiant);
+
+                a.setAttribute('class', 'list-group-item');
+
+                a.innerHTML = array[i].nom + ", " + array[i].prenom + ", " +
+                    array[i].cursus + array[i].semestre;
+
+                ul.appendChild(a);
                 /*var pre = $("<pre>" + JSON.stringify(array[i], null, 2) + "</pre>");
                  li.append(pre);
                  a.click(function() {
@@ -53,7 +63,7 @@
         }
 
         function search(token) {
-            var searched_login = $('#login').val();
+            var searched_login = document.getElementById("login").value;
             $.ajax({
                 type: 'POST',
                 url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search',
@@ -68,7 +78,10 @@
                     console.log(xhr.status);
                     console.log(data);
                     console.log(data.length);
-                    $('#list-container').html("");
+                    list = document.getElementById("list-container");
+                    while (list.firstChild) {
+                        list.removeChild(list.firstChild);
+                    }
                     makeList(data);
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -83,13 +96,13 @@
             });
         }
 
-        $(document).ready(function () {
+        document.addEventListener("DOMContentLoaded", function(event) {
             console.log("Token : " + token);
-            $("#search").click(function (e) {
+            document.getElementById("search").addEventListener("click", function (e) {
                 search(token);
             });
 
-            $("#login").keypress(function (e) {
+            document.getElementById("login").addEventListener("keypress", function (e) {
                 if (e.which === 13) {
                     search(token);
                 }
