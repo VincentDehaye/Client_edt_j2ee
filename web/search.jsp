@@ -25,6 +25,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
 
+        var token = Cookies.get('token');
         var port = window.location.port;
 
         function makeList(array, root) {
@@ -34,7 +35,7 @@
             var ul = $("<ul class='list-group'></ul>");
             root.append(ul);
             for (var i = 0; i < array.length; i++) {
-                var a = $("<a href='http://localhost:" + port + "/Client_war_exploded/etudiant.jsp?id=" +
+                var a = $("<a href='http://localhost:" + port + "/Client_war_exploded/etudiant?id=" +
                     array[i].idEtudiant +
                     "' class='list-group-item'>" + array[i].nom + ", " + array[i].prenom + ", " +
                     array[i].cursus + array[i].semestre + "</a>");
@@ -83,7 +84,6 @@
         }
 
         $(document).ready(function () {
-            var token = Cookies.get('token');
             console.log("Token : " + token);
             $("#search").click(function (e) {
                 search(token);

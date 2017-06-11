@@ -24,9 +24,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script type="text/javascript">
+        var token = Cookies.get('token');
         var port = window.location.port;
-        var Etu = [];
-        var Edt = [];
+        var Etu = JSON.stringify("");
+        var Edt = JSON.stringify("");
         function getEtu(id) {
             $.ajax({
                 type: 'GET',
@@ -35,29 +36,11 @@
                 headers:{'Authorization':'Bearer ' + token} ,
                 crossDomain: true,
                 success: function (data, textStatus, xhr) {
-                    console.log(xhr.status);
-                    console.log(data);
-                    Etu = JSON.parse(data);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    console.log(xhr.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
-                }
-            });
-        }
-
-        function getEdt(id) {
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/edt/' + id,
-                dataType: 'json',
-                headers:{'Authorization':'Bearer ' + token} ,
-                crossDomain: true,
-                success: function (data, textStatus, xhr) {
-                    console.log(xhr.status);
-                    console.log(data);
-                    Edt = JSON.parse(data);
+                    Etu = JSON.stringify(data,null,2);
+                    $("#pre1").text(Etu);
+                    $("body").prepend("<img src='https://demeter.utc.fr/portal/pls/portal30/portal30." +
+                        "get_photo_utilisateur?username=" + data.login + "'/>");
+                    //getEtuPhoto(data.login);
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status === 401) {
@@ -71,15 +54,53 @@
             });
         }
 
+        /*function getEtuPhoto(login) {
+            $.ajax({
+                type: 'GET',
+                url: "https://demeter.utc.fr/portal/pls/portal30/portal30.get_photo_utilisateur?username=" + login,
+                crossDomain: true,
+                success: function (data, textStatus, xhr) {
+                    console.log(data);
+                    console.log(typeof(data));
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.status);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }*/
+
+        function getEdt(id) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/edt/' + id,
+                dataType: 'json',
+                headers:{'Authorization':'Bearer ' + token} ,
+                crossDomain: true,
+                success: function (data, textStatus, xhr) {
+                    Edt = JSON.stringify(data, null, 2);
+                    $("#pre2").text(Edt);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status === 401) {
+                        alert("Token not valid anymore. You will be redirected to login page.");
+                        window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                    }
+                    console.log(xhr.status);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
 
         $(document).ready(function () {
-            var token = Cookies.get('token');
-            console.log("Token : " + token);
             var id = $('#getEtuId').val();
+            if (id === "null") {
+                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/search.jsp")
+            }
             getEtu(id);
             getEdt(id);
-            var Data = Etu.concat(Edt);
-            $("pre").text(Data);
         });
 
     </script>
@@ -87,6 +108,7 @@
 <body>
 <input type="hidden" id="getEtuId" value="<%= request.getParameter("id") %>" />
 
-<pre></pre>
+<pre id="pre1"></pre>
+<pre id="pre2"></pre>
 </body>
 </html>
