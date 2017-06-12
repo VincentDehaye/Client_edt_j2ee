@@ -10,12 +10,20 @@
 <head>
     <title>Student</title>
 
+
     <style type="text/css">
+        .degrade {
+            background-image:linear-gradient(#2bc5cc, #003b65);
+            background-attachment: fixed;
+        }
+
         body
         {
             font-family: arial;
+            color: black;
             text-align: center;
         }
+
 
 
         th,td
@@ -141,6 +149,8 @@
                         img = document.createElement("img");
                         img.setAttribute("src", "https://demeter.utc.fr/portal/pls/portal30/portal30." +
                             "get_photo_utilisateur?username=" + data.login);
+                        img.setAttribute("height", "223px");
+                        img.setAttribute("width", "178px");
                         document.body.prepend(img);
                         div = document.getElementById("etuInfo");
                         div.innerHTML = data.prenom + " " + data.nom + ", " + data.cursus + data.semestre + ", " +
@@ -216,13 +226,13 @@
 
     </script>
 </head>
-<body>
+<body class="degrade">
 <input type="hidden" id="getEtuId" value="<%= request.getParameter("id") %>" />
 
-<h1 id="etuInfo"></h1>
+<h1 id="etuInfo" style="color: black;"></h1>
 
 
-<table width="80%" align="center" >
+<table width="80%" align="center" style="background-color: white;" >
     <div id="head_nav">
         <tr>
             <th>Time</th>

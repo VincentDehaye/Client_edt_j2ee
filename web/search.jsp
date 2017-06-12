@@ -10,6 +10,13 @@
 <head>
     <title>Search</title>
 
+    <style>
+        .degrade {
+            background-image:linear-gradient(#2bc5cc, #003b65);
+            background-attachment: fixed;
+        }
+    </style>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -109,7 +116,7 @@
         });
     </script>
 </head>
-<body>
+<body class="degrade">
 <div class="container well" style="max-width: 610px;" id="search_div">
 
     <form class="form-horizontal" accept-charset="UTF-8">
