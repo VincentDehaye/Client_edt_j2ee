@@ -10,6 +10,40 @@
 <head>
     <title>Student</title>
 
+    <style type="text/css">
+        body
+        {
+            font-family: arial;
+        }
+
+        th,td
+        {
+            margin: 0;
+            text-align: center;
+            border-collapse: collapse;
+            outline: 1px solid #e3e3e3;
+        }
+
+        td
+        {
+            padding: 5px 10px;
+        }
+
+        th
+        {
+            background: #666;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        td:hover
+        {
+            cursor: pointer;
+            background: #666;
+            color: white;
+        }
+    </style>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -28,33 +62,36 @@
         var port = window.location.port;
         var Etu = JSON.stringify("");
         var Edt = JSON.stringify("");
+
         function getEtu(id) {
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/' + id,
-                dataType: 'json',
-                headers:{'Authorization':'Bearer ' + token} ,
-                crossDomain: true,
-                success: function (data, textStatus, xhr) {
-                    Etu = JSON.stringify(data,null,2);
-                    document.getElementById("pre1").innerHTML = Etu;
-                    img = document.createElement("img");
-                    img.setAttribute("src", "https://demeter.utc.fr/portal/pls/portal30/portal30." +
-                    "get_photo_utilisateur?username=" + data.login);
-                    document.body.prepend(img);
-                    //getEtuPhoto(data.login);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status === 401) {
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+                    if (xmlhttp.status == 200) {
+                        data = JSON.parse(xmlhttp.responseText);
+                        Etu = JSON.stringify(data,null,2);
+                        document.getElementById("pre1").innerHTML = Etu;
+                        img = document.createElement("img");
+                        img.setAttribute("src", "https://demeter.utc.fr/portal/pls/portal30/portal30." +
+                            "get_photo_utilisateur?username=" + data.login);
+                        document.body.prepend(img);
+                    }
+                    else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
                         window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
                     }
-                    console.log(xhr.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    else {
+                        alert('Unknown error');
+                    }
                 }
-            });
+            };
+
+            xmlhttp.open("GET",'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/' + id, true);
+            xmlhttp.setRequestHeader('Authorization','Bearer ' + token);
+            xmlhttp.send();
         }
+
 
         /*function getEtuPhoto(login) {
             $.ajax({
@@ -74,27 +111,30 @@
         }*/
 
         function getEdt(id) {
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/edt/' + id,
-                dataType: 'json',
-                headers:{'Authorization':'Bearer ' + token} ,
-                crossDomain: true,
-                success: function (data, textStatus, xhr) {
-                    Edt = JSON.stringify(data, null, 2);
-                    document.getElementById("pre2").innerHTML = Edt;
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status === 401) {
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+                    if (xmlhttp.status == 200) {
+                        data = JSON.parse(xmlhttp.responseText);
+                        Edt = JSON.stringify(data, null, 2);
+                        document.getElementById("pre2").innerHTML = Edt;
+                    }
+                    else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
                         window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
                     }
-                    console.log(xhr.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    else {
+                        alert('Unknown error');
+                    }
                 }
-            });
+            };
+
+            xmlhttp.open("GET",'http://localhost:' + port + '/Edt_jee_war_exploded/edt/' + id, true);
+            xmlhttp.setRequestHeader('Authorization','Bearer ' + token);
+            xmlhttp.send();
         }
+
 
         document.addEventListener("DOMContentLoaded", function(event) {
             var id = document.getElementById("getEtuId").value;
@@ -112,5 +152,7 @@
 
 <pre id="pre1"></pre>
 <pre id="pre2"></pre>
+
+
 </body>
 </html>

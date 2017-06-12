@@ -64,37 +64,35 @@
 
         function search(token) {
             var searched_login = document.getElementById("login").value;
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search',
-                dataType: 'json',
-                data: JSON.stringify({login: searched_login}),
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json;charset=utf8'
-                },
-                crossDomain: true,
-                success: function (data, textStatus, xhr) {
-                    console.log(xhr.status);
-                    console.log(data);
-                    console.log(data.length);
-                    list = document.getElementById("list-container");
-                    while (list.firstChild) {
-                        list.removeChild(list.firstChild);
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+                    if (xmlhttp.status == 200) {
+                        data = JSON.parse(xmlhttp.responseText);
+                        list = document.getElementById("list-container");
+                        while (list.firstChild) {
+                            list.removeChild(list.firstChild);
+                        }
+                        makeList(data);
                     }
-                    makeList(data);
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status === 401) {
+                    else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
                         window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
                     }
-                    console.log(xhr.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    else {
+                        alert('Unknown error');
+                    }
                 }
-            });
+            };
+
+            xmlhttp.open("POST",'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search', true);
+            xmlhttp.setRequestHeader('Content-Type','application/json;charset=utf8');
+            xmlhttp.setRequestHeader('Authorization','Bearer ' + token);
+            xmlhttp.send(JSON.stringify({login: searched_login}));
         }
+
+
 
         document.addEventListener("DOMContentLoaded", function(event) {
             console.log("Token : " + token);

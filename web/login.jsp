@@ -59,29 +59,30 @@
         function logIn() {
             var username = document.getElementById("session_username").value;
             var password = document.getElementById("session_password").value;
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:' + port + '/Edt_jee_war_exploded/authentification',
-                dataType: 'json',
-                data: JSON.stringify({username: username, password: password}),
-                headers:{'Content-Type':'application/json;charset=utf8'} ,
-                crossDomain: true,
-                success: function (data, textStatus, xhr) {
-                    console.log(xhr.status);
-                    console.log(data);
-                    token = data.bearer;
-                    console.log(token);
-                    Cookies.set('token', token);
-                    window.location.href = "http://localhost:" + port + "/Client_war_exploded/search.jsp"
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.status == 401) {alert("Invalid credentials");};
-                    console.log(xhr.status);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+                    if (xmlhttp.status == 200) {
+                        data = JSON.parse(xmlhttp.responseText);
+                        token = data.bearer;
+                        Cookies.set('token', token);
+                        window.location.href = "http://localhost:" + port + "/Client_war_exploded/search.jsp"
+                    }
+                    else if (xmlhttp.status == 401) {
+                        alert('Invalid credentials');
+                    }
+                    else {
+                        alert('Unknown error');
+                    }
                 }
-            });
-        };
+            };
+
+            xmlhttp.open("POST", 'http://localhost:' + port + '/Edt_jee_war_exploded/authentification', true);
+            xmlhttp.setRequestHeader('Content-Type','application/json;charset=utf8');
+            xmlhttp.send(JSON.stringify({username: username, password: password}));
+        }
+
 
         document.addEventListener("DOMContentLoaded", function(event) {
 
