@@ -14,7 +14,9 @@
         body
         {
             font-family: arial;
+            text-align: center;
         }
+
 
         th,td
         {
@@ -27,6 +29,7 @@
         td
         {
             padding: 5px 10px;
+            color: black;
         }
 
         th
@@ -34,6 +37,7 @@
             background: #666;
             color: white;
             padding: 5px 10px;
+            text-align: center !important;
         }
 
         td:hover
@@ -63,6 +67,69 @@
         var Etu = JSON.stringify("");
         var Edt = JSON.stringify("");
 
+        function makeEdt(array){
+            for (var i = 0; i < array.length; i++) {
+                switch (array[i].debut){
+                    case "08:00:00":
+                        var row = document.getElementById("8-10");
+                        break;
+                    case "10:15:00":
+                        var row = document.getElementById("10-12");
+                        break;
+                    case "14:15:00":
+                        var row = document.getElementById("14-16");
+                        break;
+                    case "16:15:00":
+                        var row = document.getElementById("16-18");
+                        break;
+                }
+
+                switch(array[i].jour){
+                    case "Lundi":
+                        var n = 1;
+                        break;
+                    case "Mardi":
+                        var n = 2;
+                        break;
+                    case "Mercredi":
+                        var n = 3;
+                        break;
+                    case "Jeudi":
+                        var n = 4;
+                        break;
+                    case "Vendredi":
+                        var n = 5;
+                        break;
+                }
+
+                var group = false;
+                switch(array[i].type) {
+                    case "C":
+                        var colour = "blue";
+                        break;
+                    case "TD":
+                        var colour = "yellow";
+                        group = true;
+                        break;
+                    case "TP":
+                        var colour = "red";
+                        group = true;
+                        break;
+                }
+
+                var cell = row.getElementsByTagName("td")[n];
+                if (group){
+                    cell.innerHTML = array[i].uv + ", " + array[i].salle + ", " + array[i].groupe;
+                }
+                else {
+                    cell.innerHTML = array[i].uv + ", " + array[i].salle;
+                }
+                cell.style.backgroundColor = colour;
+                cell.setAttribute("title", array[i].type);
+
+            }
+        };
+
         function getEtu(id) {
             var xmlhttp = new XMLHttpRequest();
 
@@ -71,11 +138,13 @@
                     if (xmlhttp.status == 200) {
                         data = JSON.parse(xmlhttp.responseText);
                         Etu = JSON.stringify(data,null,2);
-                        document.getElementById("pre1").innerHTML = Etu;
                         img = document.createElement("img");
                         img.setAttribute("src", "https://demeter.utc.fr/portal/pls/portal30/portal30." +
                             "get_photo_utilisateur?username=" + data.login);
                         document.body.prepend(img);
+                        div = document.getElementById("etuInfo");
+                        div.innerHTML = data.prenom + " " + data.nom + ", " + data.cursus + data.semestre + ", " +
+                            data.mail;
                     }
                     else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
@@ -118,7 +187,7 @@
                     if (xmlhttp.status == 200) {
                         data = JSON.parse(xmlhttp.responseText);
                         Edt = JSON.stringify(data, null, 2);
-                        document.getElementById("pre2").innerHTML = Edt;
+                        makeEdt(data);
                     }
                     else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
@@ -150,9 +219,68 @@
 <body>
 <input type="hidden" id="getEtuId" value="<%= request.getParameter("id") %>" />
 
-<pre id="pre1"></pre>
-<pre id="pre2"></pre>
+<h1 id="etuInfo"></h1>
 
+
+<table width="80%" align="center" >
+    <div id="head_nav">
+        <tr>
+            <th>Time</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+
+        </tr>
+    </div>
+    <tr id="8-10">
+        <th>08:00 - 10:00</th>
+
+        <td></td>
+        <td></td>
+        <td title="No Class" class="Holiday"></td>
+        <td></td>
+        <td></td>
+        </div>
+    </tr>
+
+    <tr id="10-12">
+        <th>10:15 - 12:15</td>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </div>
+    </tr>
+
+    <tr id="14-16">
+        <th>14:15 - 16:15</td>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+        </div>
+    </tr>
+
+    <tr id="16-18">
+        <th>16:30 - 18:30</td>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+        </div>
+    </tr>
+
+</table>
 
 </body>
 </html>
