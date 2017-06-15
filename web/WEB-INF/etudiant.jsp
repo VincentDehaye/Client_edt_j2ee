@@ -24,7 +24,10 @@
             text-align: center;
         }
 
-
+        table
+        {
+            table-layout: fixed;
+        }
 
         th,td
         {
@@ -32,11 +35,12 @@
             text-align: center;
             border-collapse: collapse;
             outline: 1px solid #e3e3e3;
+            word-wrap: break-word;
         }
 
         td
         {
-            padding: 5px 10px;
+            padding: 5px 5px;
             color: black;
         }
 
@@ -44,7 +48,7 @@
         {
             background: #666;
             color: white;
-            padding: 5px 10px;
+            padding: 5px 5px;
             text-align: center !important;
         }
 
@@ -79,16 +83,34 @@
             for (var i = 0; i < array.length; i++) {
                 switch (array[i].debut){
                     case "08:00:00":
-                        var row = document.getElementById("8-10");
+                        var beginRow = document.getElementById("8-9");
+                        break;
+                    case "09:00:00":
+                        var beginRow = document.getElementById("9-10");
                         break;
                     case "10:15:00":
-                        var row = document.getElementById("10-12");
+                        var beginRow = document.getElementById("10-11");
+                        break;
+                    case "11:15:00":
+                        var beginRow = document.getElementById("11-12");
+                        break;
+                    case "13:00:00":
+                        var beginRow = document.getElementById("13-14");
                         break;
                     case "14:15:00":
-                        var row = document.getElementById("14-16");
+                        var beginRow = document.getElementById("14-15");
                         break;
-                    case "16:15:00":
-                        var row = document.getElementById("16-18");
+                    case "15:15:00":
+                        var beginRow = document.getElementById("15-16");
+                        break;
+                    case "16:30:00":
+                        var beginRow = document.getElementById("16-17");
+                        break;
+                    case "17:30:00":
+                        var beginRow = document.getElementById("17-18");
+                        break;
+                    case "18:30:00":
+                        var beginRow = document.getElementById("18-19");
                         break;
                 }
 
@@ -110,6 +132,14 @@
                         break;
                 }
 
+                var debut = array[i].debut.substring(0,2);
+                debut = parseInt(debut);
+                var fin = array[i].fin.substring(0,2);
+                fin = parseInt(fin);
+
+                var duration = fin - debut;
+
+
                 var group = false;
                 switch(array[i].type) {
                     case "C":
@@ -125,7 +155,7 @@
                         break;
                 }
 
-                var cell = row.getElementsByTagName("td")[n];
+                var cell = beginRow.getElementsByTagName("td")[n];
                 if (group){
                     cell.innerHTML = array[i].uv + ", " + array[i].salle + ", " + array[i].groupe;
                 }
@@ -134,6 +164,25 @@
                 }
                 cell.style.backgroundColor = colour;
                 cell.setAttribute("title", array[i].type);
+                cell.setAttribute("rowspan", duration);
+
+                //Remove cells on which the cell we just defined extends itself
+                if (duration > 1){
+                    var row2 = beginRow.nextElementSibling;
+                    var cell2 = row2.getElementsByTagName("td")[n];
+                    row2.removeChild(cell2);
+                    if (duration > 2) {
+                        var row3 = beginRow.nextElementSibling;
+                        var cell3 = row3.getElementsByTagName("td")[n];
+                        row3.removeChild(cell3);
+                        if (duration > 3.15) {
+                            var row4 = beginRow.nextElementSibling;
+                            var cell4 = row4.getElementsByTagName("td")[n];
+                            row4.removeChild(cell4);
+                        }
+                    }
+
+                }
 
             }
         };
@@ -244,52 +293,116 @@
 
         </tr>
     </div>
-    <tr id="8-10">
-        <th>08:00 - 10:00</th>
+    <tr id="8-9">
+        <th>08:00 - 09:00</th>
 
         <td></td>
         <td></td>
-        <td title="No Class" class="Holiday"></td>
         <td></td>
         <td></td>
-        </div>
+        <td></td>
     </tr>
 
-    <tr id="10-12">
-        <th>10:15 - 12:15</td>
+    <tr id="9-10">
+        <th>09:00 - 10:00</th>
 
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        </div>
     </tr>
 
-    <tr id="14-16">
-        <th>14:15 - 16:15</td>
+    <tr id="10-11">
+        <th>10:15 - 11:15</th>
 
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-
-        </div>
     </tr>
 
-    <tr id="16-18">
-        <th>16:30 - 18:30</td>
+    <tr id="11-12">
+        <th>11:15 - 12:15</th>
 
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-
-        </div>
     </tr>
 
+    <tr id="12-13">
+        <th>12:15 - 13:00</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr id="13-14">
+        <th>13:00 - 14:00</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr id="14-15">
+        <th>14:15 - 15:15</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr id="15-16">
+        <th>15:15 - 16:15</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr id="16-17">
+        <th>16:30 - 17:30</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+    </tr>
+
+    <tr id="17-18">
+        <th>17:30 - 18:30</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr id="18-19">
+        <th>18:30 - 19:30</th>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
 
 </body>
