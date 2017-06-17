@@ -130,19 +130,19 @@
 
                 switch(array[i].jour){
                     case "Lundi":
-                        var n = 1;
+                        var n = 0;
                         break;
                     case "Mardi":
-                        var n = 2;
+                        var n = 1;
                         break;
                     case "Mercredi":
-                        var n = 3;
+                        var n = 2;
                         break;
                     case "Jeudi":
-                        var n = 4;
+                        var n = 3;
                         break;
                     case "Vendredi":
-                        var n = 5;
+                        var n = 4;
                         break;
                 }
 
