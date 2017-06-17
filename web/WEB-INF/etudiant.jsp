@@ -24,6 +24,20 @@
             text-align: center;
         }
 
+        #back-button
+        {
+            position: absolute;
+            left: 0px;
+            color: white;
+            z-index: 10;
+        }
+
+        #back-button:hover
+        {
+            cursor: pointer !important;
+            text-decoration: underline;
+        }
+
         table
         {
             table-layout: fixed;
@@ -207,7 +221,7 @@
                     }
                     else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                        window.location.href = ("login.jsp")
                     }
                     else {
                         alert('Unknown error');
@@ -250,7 +264,7 @@
                     }
                     else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                        window.location.href = ("login.jsp")
                     }
                     else {
                         alert('Unknown error');
@@ -269,11 +283,11 @@
         document.addEventListener("DOMContentLoaded", function(event) {
             var id = document.getElementById("getEtuId").value;
             if (id === "null") {
-                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/search.jsp")
+                window.location.href = ("search.jsp")
             }
             document.getElementsByTagName("button")[0].addEventListener("click", function(e) {
                 Cookies.remove('token')
-                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                window.location.href = ("login.jsp")
             });
             getEtu(id);
             getEdt(id);
@@ -285,6 +299,7 @@
 <input type="hidden" id="getEtuId" value="<%= request.getParameter("id") %>" />
 
 <div id="logout-button" class="row">
+    <a id="back-button" class="btn btn-link" href="search.jsp" >&larr; Back to search</a>
     <div class="col-sm-12">
         <div class="text-center">
             <div class="form-group">

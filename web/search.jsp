@@ -85,7 +85,7 @@
                     }
                     else if (xmlhttp.status == 401) {
                         alert("Token not valid anymore. You will be redirected to login page.");
-                        window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                        window.location.href = ("login.jsp")
                     }
                     else {
                         alert('Unknown error');
@@ -114,7 +114,7 @@
 
             document.getElementsByTagName("button")[0].addEventListener("click", function (e) {
                 Cookies.remove('token')
-                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+                window.location.href = ("login.jsp")
             });
 
         });

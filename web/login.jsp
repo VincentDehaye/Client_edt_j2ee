@@ -74,7 +74,7 @@
                         data = JSON.parse(xmlhttp.responseText);
                         token = data.bearer;
                         Cookies.set('token', token);
-                        window.location.href = "http://localhost:" + port + "/Client_war_exploded/search.jsp"
+                        window.location.href = "search.jsp"
                     }
                     else if (xmlhttp.status == 401) {
                         alert('Invalid credentials');
