@@ -12,7 +12,7 @@
 
     <style>
         .degrade {
-            background-image:linear-gradient(#2bc5cc, #003b65);
+            background-image: linear-gradient(#2bc5cc, #003b65);
             background-attachment: fixed;
         }
     </style>
@@ -73,8 +73,8 @@
             var searched_login = document.getElementById("login").value;
             var xmlhttp = new XMLHttpRequest();
 
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         data = JSON.parse(xmlhttp.responseText);
                         list = document.getElementById("list-container");
@@ -93,15 +93,14 @@
                 }
             };
 
-            xmlhttp.open("POST",'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search', true);
-            xmlhttp.setRequestHeader('Content-Type','application/json;charset=utf8');
-            xmlhttp.setRequestHeader('Authorization','Bearer ' + token);
+            xmlhttp.open("POST", 'http://localhost:' + port + '/Edt_jee_war_exploded/etudiants/search', true);
+            xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=utf8');
+            xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
             xmlhttp.send(JSON.stringify({login: searched_login}));
         }
 
 
-
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function (event) {
             console.log("Token : " + token);
             document.getElementById("search").addEventListener("click", function (e) {
                 search(token);
@@ -113,10 +112,26 @@
                 }
             });
 
+            document.getElementsByTagName("button")[0].addEventListener("click", function (e) {
+                Cookies.remove('token')
+                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+            });
+
         });
     </script>
 </head>
 <body class="degrade">
+<div class="row">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <div class="form-group">
+                <button type="button" class="btn btn-danger">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container well" style="max-width: 610px;" id="search_div">
 
     <form class="form-horizontal" accept-charset="UTF-8">

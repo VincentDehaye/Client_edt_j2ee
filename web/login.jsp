@@ -109,6 +109,7 @@
                 }
             })
 
+
             /* createEtu("Berthault", "Valentin", "valentin.berthault@etu.utc.fr", "2", "GM", "branche",
             "berthval", "motdepasse") */
 

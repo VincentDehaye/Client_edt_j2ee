@@ -200,7 +200,7 @@
                             "get_photo_utilisateur?username=" + data.login);
                         img.setAttribute("height", "223px");
                         img.setAttribute("width", "178px");
-                        document.body.prepend(img);
+                        document.body.insertBefore(img, document.getElementById("logout-button").nextElementSibling);
                         div = document.getElementById("etuInfo");
                         div.innerHTML = data.prenom + " " + data.nom + ", " + data.cursus + data.semestre + ", " +
                             data.mail;
@@ -264,11 +264,17 @@
         }
 
 
+
+
         document.addEventListener("DOMContentLoaded", function(event) {
             var id = document.getElementById("getEtuId").value;
             if (id === "null") {
                 window.location.href = ("http://localhost:" + port + "/Client_war_exploded/search.jsp")
             }
+            document.getElementsByTagName("button")[0].addEventListener("click", function(e) {
+                Cookies.remove('token')
+                window.location.href = ("http://localhost:" + port + "/Client_war_exploded/login.jsp")
+            });
             getEtu(id);
             getEdt(id);
         });
@@ -278,6 +284,15 @@
 <body class="degrade">
 <input type="hidden" id="getEtuId" value="<%= request.getParameter("id") %>" />
 
+<div id="logout-button" class="row">
+    <div class="col-sm-12">
+        <div class="text-center">
+            <div class="form-group">
+                <button type="button" class="btn btn-danger">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
 <h1 id="etuInfo" style="color: black;"></h1>
 
 
