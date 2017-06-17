@@ -183,15 +183,18 @@
                 //Remove cells on which the cell we just defined extends itself
                 if (duration > 1){
                     var row2 = beginRow.nextElementSibling;
-                    var cell2 = row2.getElementsByTagName("td")[n];
+                    var length = row2.getElementsByTagName("td").length;
+                    var cell2 = row2.getElementsByTagName("td")[length-1];
                     row2.removeChild(cell2);
                     if (duration > 2) {
                         var row3 = beginRow.nextElementSibling;
-                        var cell3 = row3.getElementsByTagName("td")[n];
+                        var length = row3.getElementsByTagName("td").length;
+                        var cell3 = row3.getElementsByTagName("td")[length-1];
                         row3.removeChild(cell3);
                         if (duration > 3.15) {
                             var row4 = beginRow.nextElementSibling;
-                            var cell4 = row4.getElementsByTagName("td")[n];
+                            var length = row4.getElementsByTagName("td").length;
+                            var cell4 = row4.getElementsByTagName("td")[length-1];
                             row4.removeChild(cell4);
                         }
                     }
@@ -260,6 +263,7 @@
                     if (xmlhttp.status == 200) {
                         data = JSON.parse(xmlhttp.responseText);
                         Edt = JSON.stringify(data, null, 2);
+                        console.log(data);
                         makeEdt(data);
                     }
                     else if (xmlhttp.status == 401) {
