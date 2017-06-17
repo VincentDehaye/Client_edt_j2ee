@@ -226,6 +226,10 @@
                         alert("Token not valid anymore. You will be redirected to login page.");
                         window.location.href = ("login.jsp")
                     }
+                    else if (xmlhttp.status == 404) {
+                        alert("Student not found. You will be redirected to search page.");
+                        window.location.href = ("search.jsp")
+                    }
                     else {
                         alert('Unknown error');
                     }
